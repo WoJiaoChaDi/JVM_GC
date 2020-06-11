@@ -12,8 +12,16 @@ public class MyObject {
         List list = new ArrayList();
         System.out.println(list.getClass().getClassLoader());
 
+        System.out.println("====自定义类====");
         //自己定义的类加载器，走的是  sun.misc.Launcher$AppClassLoader@18b4aac2
         MyObject myObj = new MyObject();
+        //空指针
+        //System.out.println(myObj.getClass().getClassLoader().getParent().getParent().getParent());
+        //---  Bootstrap -> null
+        System.out.println(myObj.getClass().getClassLoader().getParent().getParent());
+        //---  sun.misc.Launcher$ExtClassLoader@4554617c
+        System.out.println(myObj.getClass().getClassLoader().getParent());
+        //---  sun.misc.Launcher$AppClassLoader@18b4aac2
         System.out.println(myObj.getClass().getClassLoader());
 
     }
