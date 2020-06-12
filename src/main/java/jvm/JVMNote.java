@@ -1,5 +1,7 @@
 package jvm;
 
+import java.util.Random;
+
 /**
  * 1 JVM系统架构图
  *
@@ -24,10 +26,17 @@ package jvm;
  *  方法区 f = new 永久代     java.17
  *  方法区 f = new 元空间     java1.8
  *
- * 6 stack
+ * 6 stack 栈
  *  6.1 栈管运行，堆管存储
  *  6.2 栈保存什么东西？
  *          8种基本类型 + 引用类型 + 实例方法
+ *
+ * 7 heap 堆
+ *
+ * 8 heap --> 对象的生命周期 -> OOM
+ *  8.1 老师讲解的heap结构是否正确？
+ *  8.2
+ *
  */
 public class JVMNote {
 
@@ -44,6 +53,23 @@ public class JVMNote {
     public static void main(String[] args) {
         //不停的往 栈里面压方法，直至 超过了栈的最大限制
         //Exception in thread "main" java.lang.StackOverflowError
-        method01();
+        //method01();
+
+        System.out.println("进程数量：" + Runtime.getRuntime().availableProcessors());
+        long maxMemory = Runtime.getRuntime().maxMemory() ;//返回 Java 虚拟机试图使用的最大内存量。
+        long totalMemory = Runtime.getRuntime().totalMemory() ;//返回 Java 虚拟机中的内存总量。
+        System.out.println("MAX_MEMORY = " + maxMemory + "（字节）\t" + (maxMemory / (double)1024 / 1024) + "MB");
+        System.out.println("TOTAL_MEMORY = " + totalMemory + "（字节）\t" + (totalMemory / (double)1024 / 1024) + "MB");
+
+        //[Full GC (Allocation Failure) Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
+
+        byte[] bytes = new byte[40 * 1024 * 1024];
+
+        String str = "";
+        while (true) {
+            str += str + new Random().nextInt(88888888) + new Random().nextInt(9999999);
+        }
+
+
     }
 }
